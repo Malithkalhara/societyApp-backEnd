@@ -10,14 +10,14 @@ let societySchema=new schema({
         type:String,
         unique:true
     },
+    username:{
+        type:String
+    },
     password:{
         type:String
     },
     accno:{
         type:String
-    },
-    count:{
-        type:Number
     },
     members:[{
         year:Number,

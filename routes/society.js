@@ -29,7 +29,8 @@ router.post('/authenticate', function(req, res) {
         // create a token with only our given payload
     // we don't want to pass in the entire society since that has the password
     const payload = {
-      email: society.email
+      email: society.email,
+      username:society.username
     };
         var token = jwt.sign(payload, config.secret, {
          // expiresInMinutes: 1440 // expires in 24 hours
@@ -59,9 +60,9 @@ router.get('/',(req,res)=>{
   });
 });
 
-router.get('/:name',(req,res)=>{
+router.get('/:username',(req,res)=>{
   society.findOne({
-    name: req.params.name
+    username: req.params.username
   },(err,society)=>{
       if(err)
           console.log(err);
@@ -113,25 +114,25 @@ router.use(function(req, res, next) {
   }
 });
 
-router.post('/update/:name',(req,res)=>{
-  if(req.decoded.name == req.params.name){
+router.post('/update/:username',(req,res)=>{
+  if(req.decoded.username == req.params.username){
     //update code
-    society.findOne(req.params.name,(err,soc)=>{
-      if(!soc)
-          res.send('Document not found');
+    society.findOneAndUpdate({username: req.params.username},
+      {
+          name : req.body.name,
+          email : req.body.email,
+          accno :req.body.accno
+          },(err, society)=>{
 
-      else
-          soc.name=req.body.name
-          soc.email=req.body.email
-
-          soc.save().then(soc=>{
-              res.json('Updated done');
-          }).catch(err=>{
-              res.status(400).send('Updated failed');
-          });
-  });
+            if(err) res.json(err);
+          else
+          { 
+            res.json(society);
+            
+          }
+          })
   }else{
-    res.json({sucess:false,message:"Society names mismatch"})
+    res.json({sucess:false,message:"Society username mismatch"})
   }
   
 });

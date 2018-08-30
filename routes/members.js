@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
-router.post('/join', function(req, res, next) {
-  res.send('respond with a resource');
-});
+var member =require('../models/member.model');
+
+
 
 module.exports = router;
