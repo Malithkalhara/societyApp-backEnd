@@ -1,6 +1,7 @@
-const mongoose=require('mongoose');
+var mongoose=require('mongoose');
+var member =require('../models/member.model');
 
-const schema=mongoose.Schema;
+var schema=mongoose.Schema;
 
 let societySchema=new schema({
     name:{
@@ -22,8 +23,9 @@ let societySchema=new schema({
     members:[{
         year:Number,
         members:[{
-            name:String,
-            faculty:String
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'member'
+            
         }]
     }]
 });

@@ -134,6 +134,17 @@ router.post('/update/:username',(req,res)=>{
   }else{
     res.json({sucess:false,message:"Society username mismatch"})
   }
+
+  router.delete('/delete/:username', (req, res) => {
+    society.findOneAndRemove({username: req.params.username}, (err) => {
+      if (err) {
+        res.json(err)
+      }
+
+      res.json({success:true,message:'Society deleted!!'})
+    });
+    
+  });
   
 });
 module.exports = router;
