@@ -6,22 +6,22 @@ let memberSchema=new schema({
     fname:{
         type:String
     },
-    lname:{
-        type:String
-    },
     regNo:{
         type:String
     },
     post:{
         type:String
     },
-    contactNo:{
+    mobile:{
         type:String
     },
     email:{
         type:String
     },
     faculty:{
+        type:String
+    },
+    socpost:{
         type:String
     },
 });
