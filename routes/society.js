@@ -11,13 +11,13 @@ router.post('/authenticate', function(req, res) {
 
   // find the society
   society.findOne({
-    email: req.body.email
+    username: req.body.username
   }, function(err, society) {
 
     if (err) throw err;
 
     if (!society) {
-      res.json({ success: false, message: 'Authentication failed. Invalid Society email.' });
+      res.json({ success: false, message: 'Authentication failed. Invalid Society username.' });
     } else if (society) {
 
       // check if password matches
@@ -29,7 +29,6 @@ router.post('/authenticate', function(req, res) {
         // create a token with only our given payload
     // we don't want to pass in the entire society since that has the password
     const payload = {
-      email: society.email,
       username:society.username
     };
         var token = jwt.sign(payload, config.secret, {
@@ -51,12 +50,12 @@ router.post('/authenticate', function(req, res) {
 
 /* GET home page. */
 router.get('/',(req,res)=>{
-  society.find((err,socities)=>{
+  society.find((err,society)=>{
       if(err)
           Console.log('err');
       
       else
-         res.json(socities) ;
+         res.json(society) ;
   });
 });
 
@@ -134,17 +133,26 @@ router.post('/update/:username',(req,res)=>{
   }else{
     res.json({sucess:false,message:"Society username mismatch"})
   }
+});
 
   router.delete('/delete/:username', (req, res) => {
-    society.findOneAndRemove({username: req.params.username}, (err) => {
-      if (err) {
-        res.json(err)
-      }
-
-      res.json({success:true,message:'Society deleted!!'})
-    });
-    
-  });
+    if(req.decoded.username == req.params.username){
+      //update code
+     
+      society.findOneAndRemove({username: req.params.username}, (err) => {
+        if (err) {
+          res.json(err)
+        }
   
-});
+        res.json({success:true,message:'Society deleted!!'})
+      });
+    }else{
+      res.json({sucess:false,message:"Society username mismatch"})
+    }
+  });
+
+
+  
+  
+
 module.exports = router;

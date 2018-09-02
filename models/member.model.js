@@ -6,14 +6,11 @@ let memberSchema=new schema({
     fname:{
         type:String
     },
-    regNo:{
-        type:String
-    },
-    post:{
+    regno:{
         type:String
     },
     mobile:{
-        type:String
+        type:Number
     },
     email:{
         type:String
